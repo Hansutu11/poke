@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <p id="logout"><a href="/logout">Logout</a></p>
+    <h2>Welcome, {{ welcome.name }}!</h2>
+
+    {% if counter > 1 %}
+        <p>{{counter}} people poked you!</p>
+    {% endif %}
+    {% if counter == 1 %}
+        <p>{{counter}} person poked you!</p>
+    {% endif %}
+    <div>
+        <table id="pokes">
+        {% for user in otherfriends %}
+            {% if user.pokeamount.count > 0 %}
+                {% if user.pokeamount.count == 1%}
+                <tr><td>{{user.name}} poked you {{user.pokeamount.count}} time.</td></tr>
+                {% endif %}
+                {% if user.pokeamount.count > 1%}
+                <tr><td>{{user.name}} poked you {{user.pokeamount.count}} times.</td></tr>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+        </table>
+
+    <h1>People you may want to poke:</h1>
+    <table>
+
+      <thead>
+        <tr>
+          <td>Name</td>
+          <td>Alias</td>
+          <td>E-Mail Address</td>
+          <td>Poke History</td>
+          <td>Action</td>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        {% for friend in otherfriends %}
+        <tr>
+          <td>{{ friend.name }}</td>
+          <td>{{ friend.alias }}</td>
+          <td>{{ friend.email }}</td>
+          <td>{{user.poketake.count}} pokes</td>
+            <td>
+              <form action="/dashboard/{{user.id}}" method="POST">
+                  {% csrf_token %}
+                  <input id="button" type="submit" value="Poke">
+              </form>
+            </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+
+    </table>
+
+  </body>
+</html>
